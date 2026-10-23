@@ -1,9 +1,5 @@
 # dwl - dwm for Wayland
 
-Join us on our [Discord server]  
-Or Matrix: [#dwl-official:matrix.org]  
-Or on our IRC channel: [#dwl on Libera Chat]
-
 dwl is a compact, hackable compositor for [Wayland] based on [wlroots]. It is
 intended to fill the same space in the Wayland world that [dwm] does in X11,
 primarily in terms of functionality, and secondarily in terms of
@@ -13,26 +9,7 @@ philosophy. Like [dwm], dwl is:
 - One C source file (or a very small number) configurable via `config.h`
 - Tied to as few external dependencies as possible
 
-## Getting Started:
-
-### Latest semi-stable [release]
-This is probably where you want to start. This builds against the [wlroots]
-versions currently shipping in major distributions. If your
-distribution's `wlroots` version is older, use an earlier dwl [release].
-The `wlroots` version against which a given `dwl` release builds is specified
-with each release on the [release] page
-
-### Development branch [main]
-Active development progresses on the `main` branch. The `main` branch is built
-against the latest release of [wlroots]. PRs should target this branch unless they
-depend on functionality that is not in the current release of `wlroots`.
-
-### Preview branch [wlroots-next]
-The `wlroots-next` branch is built against the git version of [wlroots], which
-is unstable and changes frequently. PRs requiring functionality from the git
-version of `wlroots` should target this branch.
-
-### Building dwl
+## Building dwl
 dwl has the following dependencies:
 - libinput
 - wayland
@@ -49,8 +26,8 @@ dwl has the following additional dependencies if XWayland support is enabled:
 
 Install these (and their `-devel` versions if your distro has separate
 development packages) and run `make`. If you wish to build against a released
-version of wlroots (*you probably do*), use a [release] or a [0.x branch]. If
-you want to use the unstable development `main` branch, you need to use the git
+version of wlroots (*you probably do*), use a released version of dwl. If you
+want to use the unstable development `main` branch, you need to use the git
 version of [wlroots].
 
 To enable XWayland, you should uncomment its flags in `config.mk`.
@@ -63,7 +40,7 @@ Wayland without restarting the entire display server, so any changes will take
 effect the next time dwl is executed.
 
 As in the [dwm] community, we encourage users to share patches they have
-created. Check out the [dwl-patches] repository!
+created.
 
 ## Running dwl
 
@@ -119,8 +96,6 @@ script with the line
 
     exec <&-
 
-To get a list of status bars that work with dwl consult our [wiki].
-
 ### (Known) Java nonreparenting WM issue
 Certain IDEs don't display correctly unless an environmental variable for Java AWT
 indicates that the WM is nonreparenting.
@@ -129,10 +104,6 @@ For some Java AWT-based IDEs, such as Xilinx Vivado and Microchip MPLAB X, the
 following environment variable needs to be set before running the IDE or dwl:
 
     export _JAVA_AWT_WM_NONREPARENTING=1
-
-## Replacements for X applications
-
-You can find a [list of useful resources on our wiki].
 
 ## Background
 
@@ -167,8 +138,7 @@ Features under consideration (possibly as patches) are:
 
 - Protocols made trivial by wlroots
 - Implement the text-input and input-method protocols to support IME once ibus
-  implements input-method v2 (see https://github.com/ibus/ibus/pull/2256 and
-  https://codeberg.org/dwl/dwl/pulls/235)
+  implements input-method v2
 
 Feature *non-goals* for the main codebase include:
 
@@ -197,20 +167,9 @@ inspiration, and to the various contributors to the project, including:
 [wlroots]: https://gitlab.freedesktop.org/wlroots
 [dwm]: https://dwm.suckless.org/
 [`systemd --user`]: https://wiki.archlinux.org/title/Systemd/User
-[#dwl on Libera Chat]: https://web.libera.chat/?channels=#dwl
-[0.7-rc1]: https://codeberg.org/dwl/dwl/releases/tag/v0.7-rc1
-[0.x branch]: https://codeberg.org/dwl/dwl/branches
 [anopa]: https://jjacky.com/anopa/
 [dinit]: https://davmac.org/projects/dinit/
-[dwl-patches]: https://codeberg.org/dwl/dwl-patches
-[list of useful resources on our wiki]: https://codeberg.org/dwl/dwl/wiki/Home#migrating-from-x
-[main]: https://codeberg.org/dwl/dwl/src/branch/main
-[wlroots-next]: https://codeberg.org/dwl/dwl/src/branch/wlroots-next
-[release]: https://codeberg.org/dwl/dwl/releases
 [runit]: http://smarden.org/runit/faq.html#userservices
 [s6]: https://skarnet.org/software/s6/
 [wlroots]: https://gitlab.freedesktop.org/wlroots/wlroots/
-[wiki]: https://codeberg.org/dwl/dwl/wiki/Home#compatible-status-bars
-[Discord server]: https://discord.gg/jJxZnrGPWN
 [Wayland]: https://wayland.freedesktop.org/
-[#dwl-official:matrix.org]: https://matrix.to/#/#dwl-official:matrix.org
