@@ -665,7 +665,7 @@ axisnotify(struct wl_listener *listener, void *data)
 	 * by checking the event's orientation and the delta of the event */
 	/* Notify the client with pointer focus of the axis event. */
 	wlr_seat_pointer_notify_axis(seat,
-			event->time_msec, event->orientation, event->delta,
+			event->time_msec, event->orientation, event->delta * scroll_multiplier,
 			event->delta_discrete, event->source, event->relative_direction);
 }
 
@@ -1976,6 +1976,19 @@ locksession(struct wl_listener *listener, void *data)
 	wlr_session_lock_v1_send_locked(session_lock);
 }
 
+static void
+set_tree_filter_mode(struct wlr_scene_node *node, enum wlr_scale_filter_mode mode)
+{
+	if (node->type == WLR_SCENE_NODE_BUFFER) {
+		wlr_scene_buffer_set_filter_mode(wlr_scene_buffer_from_node(node), mode);
+	} else if (node->type == WLR_SCENE_NODE_TREE) {
+		struct wlr_scene_tree *tree = wlr_scene_tree_from_node(node);
+		struct wlr_scene_node *child;
+		wl_list_for_each(child, &tree->children, link)
+			set_tree_filter_mode(child, mode);
+	}
+}
+
 void
 mapnotify(struct wl_listener *listener, void *data)
 {
@@ -1993,6 +2006,8 @@ mapnotify(struct wl_listener *listener, void *data)
 			? wlr_scene_xdg_surface_create(c->scene, c->surface.xdg)
 			: wlr_scene_subsurface_tree_create(c->scene, client_surface(c));
 	c->scene->node.data = c->scene_surface->node.data = c;
+
+	set_tree_filter_mode(&c->scene->node, WLR_SCALE_FILTER_NEAREST);
 
 	client_get_geometry(c, &c->geom);
 
