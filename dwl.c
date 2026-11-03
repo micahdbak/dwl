@@ -165,7 +165,6 @@ typedef struct {
 	const xkb_keysym_t *keysyms; /* invalid if nsyms == 0 */
 	uint32_t mods; /* invalid if nsyms == 0 */
 	struct wl_event_source *key_repeat_source;
-	uint32_t handled_keys[8];
 
 	struct wl_listener modifiers;
 	struct wl_listener key;
@@ -1889,19 +1888,11 @@ keypress(struct wl_listener *listener, void *data)
 
 	wlr_idle_notifier_v1_notify_activity(idle_notifier, seat);
 
-	if (event->state == WL_KEYBOARD_KEY_STATE_RELEASED
-			&& (group->handled_keys[keycode / 32] & (1u << (keycode % 32)))) {
-		group->handled_keys[keycode / 32] &= ~(1u << (keycode % 32));
-		return;
-	}
-
 	/* On _press_ if there is no active screen locker,
 	 * attempt to process a compositor keybinding. */
 	if (!locked && event->state == WL_KEYBOARD_KEY_STATE_PRESSED) {
 		for (i = 0; i < nsyms; i++)
 			handled = keybinding(mods, syms[i]) || handled;
-		if (handled)
-			group->handled_keys[keycode / 32] |= 1u << (keycode % 32);
 	}
 
 	if (handled && group->wlr_group->keyboard.repeat_info.delay > 0) {
